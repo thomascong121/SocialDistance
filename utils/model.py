@@ -2,12 +2,14 @@ import gluoncv
 from gluoncv import model_zoo, data, utils
 from matplotlib import pyplot as plt
 import numpy
+from collections import defaultdict
 '''
 step0 install gluoncv
 pip install --upgrade mxnet gluoncv
 '''
 class Model_Zoo:
     def __init__(self,selected_model):
+        print('=======using pretrained {0}======'.format(selected_model))
         self.smodel = selected_model
     def detect(self,image,display=False):
         '''get bbox for input image'''
@@ -15,7 +17,7 @@ class Model_Zoo:
         x, orig_img = data.transforms.presets.rcnn.load_test(image)
         box_ids, scores, bboxes = net(x)
         #possible classes:
-        print(net.classes)
+        #print(net.classes)
         #person = 14
         person_index = []
         for i in range(box_ids.shape[1]):
@@ -25,6 +27,7 @@ class Model_Zoo:
         #p1:bbox id of person
         #p2:confidence score
         #p3:bbox location
+        print('======{0} bbox of persons are detected===='.format(len(person_index)))
         p1,p2,p3 = box_ids[0][[person_index],:],scores[0][[person_index],:],bboxes[0][[person_index],:]
         if display:
             ax = utils.viz.plot_bbox(orig_img, p3[0], p2[0], p1[0], class_names=net.classes)
@@ -43,11 +46,13 @@ class Model_Zoo:
         return rst
 
 if __name__=='__main__':
-    test_img = './video_frames/0.png'
-    model = 'faster_rcnn_resnet50_v1b_voc'
-    fast_rcnn = Model_Zoo(model)
-    bbox_center = fast_rcnn.detect(test_img)
-    # print(bbox_center[0])
-    # print(bbox_center[1])
-    print(bbox_center)
+    test_img = '../video_frames/0.png'
+    pretrained_models = ['faster_rcnn_resnet50_v1b_voc','ssd_512_resnet50_v1_voc','yolo3_darknet53_voc']
+    bbox_center = defaultdict(list)
+    for m in pretrained_models:
+        detect_model = Model_Zoo(m)
+        rst = detect_model.detect(test_img,display=True)
+        bbox_center[m].append(rst)
+        
+
 
