@@ -1,14 +1,16 @@
-import numpy as np
-from collections import defaultdict
-
-from mxnet import nd
 import mxnet as mx
-from skimage import io
-
+import numpy as np
 import cv2
 import os
+import gluoncv
+
+from matplotlib import pyplot as plt
+from mxnet import nd
 from copy import deepcopy
 from tqdm import tqdm
+from gluoncv import model_zoo, data, utils
+
+
 class Detector:  
   def __init__(self, model, save_path = './detections', batch_size = 60, interval = None):
     self.detector = model

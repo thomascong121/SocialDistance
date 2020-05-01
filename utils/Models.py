@@ -2,18 +2,19 @@
 step0 install gluoncv
 pip install --upgrade mxnet gluoncv
 '''
-import numpy as np
-from collections import defaultdict
-
-from mxnet import nd
 import mxnet as mx
-from skimage import io
-
+import numpy as np
 import cv2
 import os
+import gluoncv
+
+from matplotlib import pyplot as plt
+from mxnet import nd
 from copy import deepcopy
 from tqdm import tqdm
-class Model_Zoo:
+from gluoncv import model_zoo, data, utils
+
+class Bbox_detector:
     def __init__(self,selected_model, transformer, device):
         self.device = device
         self.transformer = transformer
@@ -43,7 +44,7 @@ class Model_Zoo:
         bbox_center = self.bbox_center(p3)
         #img with bbox 
 
-        img_with_bbox = utils.viz.cv_plot_bbox(image.astype('uint8'), p3[0], p2[0], p1[0], colors={14: (0,255,0)},class_names = self.net.classes, linewidth=1)
+        img_with_bbox = utils.viz.cv_plot_bbox(image.astype('uint8'), p3[0], p2[0], p1[0], colors={14: (0,255,0)},class_names = self.net.classes, linewidth=3)
         result_img = self.bbox_distance(bbox_center,img_with_bbox)
         if display:
           plt.imshow(result_img)
@@ -72,7 +73,7 @@ class Model_Zoo:
 
         return rst.asnumpy()
 
-    def bbox_distance(self,bbox_coord,img, max_detect = 4, safe= 2):
+    def bbox_distance(self,bbox_coord,img, max_detect = 4, safe= 1.5):
         '''
         calculate distance between each bbox, 
         if distance < safe, draw a red line
