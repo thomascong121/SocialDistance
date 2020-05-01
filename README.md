@@ -25,13 +25,15 @@ After Successfully installed SocialDistance, you can use it for detection by:
 ```
 from SocialDistance.utils.Run import Detect
 detect = Detect()
-detect()
+#you may want to give an image as input to check the validity of bird-eye view transformation
+detect(image)
 ```
 If no arguments is given, our model will run using the default data collected from 'OXFORD TOWN CENTRE' dataset, otherwise you may want to specify arguments expicitly:
 ```
 from SocialDistance.utils.Run import Detect
 detect = Detect(video_path, video_save_path, keypoints, keypoints_birds_eye_view, actual_length, actual_width, pretrained_models)
-detect()
+#you may want to give an image as input to check the validity of bird-eye view transformation
+detect(image)
 ```
 > Parameters
 > ----------
