@@ -1,5 +1,5 @@
 
 SDD/data/TownCentreXVID.avi
-./build/*
-./dist/*
-./SDD.egg-info/*
+build/*
+dist/*
+SDD.egg-info/*
