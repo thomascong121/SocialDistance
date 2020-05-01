@@ -15,7 +15,7 @@ All our models are pretrained models from [Gluno CV Tookit](https://github.com/d
 # Installation
 You may be able to obtain the latest version our model from:
 ```
-pip install -i https://test.pypi.org/simple/ SocialDistance==0.1
+pip install SDD==0.1.5
 pip install gluoncv
 pip install mxnet-cu101
 ```
@@ -44,5 +44,4 @@ detect(image)
 - **actual_length**: actual length in real-world
 - **actual_width**: actual width in real-world
 - **pretrained_models**: selected pretrained models
-
 
