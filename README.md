@@ -1,5 +1,5 @@
 # SocialDistance
-Keep safe social distance is considered as an effective way of avoiding spreading of coronavirus. Our SocialDistance module ##SDD## is a lightweight package which provides an implementation of utlizing deep learning models for monitoring safe social distance.
+Keep safe social distance is considered as an effective way of avoiding spreading of coronavirus. Our SocialDistance module __SDD__ is a lightweight package which provides an implementation of utlizing deep learning models for monitoring safe social distance.
 
 # Demo
 [Watch the demo video](https://www.youtube.com/watch?v=1s46BJJj6rw&t=5s)
