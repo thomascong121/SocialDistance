@@ -1,11 +1,19 @@
 from setuptools import setup, find_packages
 with open("README.md","r") as fh:
     long_description = fh.read()
-
+requirements = [
+    'numpy',
+    'tqdm',
+    'mxnet',
+    'matplotlib',
+    'portalocker',
+    'cv2',
+    'gluoncv'
+]
 setup(
     # Metadata
     name = 'SDD',
-    version = '0.1.5',
+    version = '0.1.6',
     description = 'lightweight video detection',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -19,6 +27,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
+    install_requires=requirements,
     include_package_data= True,
     zip_safe= True
 )
