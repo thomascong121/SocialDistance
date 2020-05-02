@@ -2,7 +2,7 @@
 # from Transformer import Bird_eye_view_Transformer
 import cv2
 import mxnet as mx
-from .Transformer import Bird_eye_view_Transformer
+from .View_Transformer import Bird_eye_view_Transformer
 from .Detector import Detector
 from .Models import Bbox_detector
 class Detect:
@@ -20,7 +20,7 @@ class Detect:
         keypoints: selected key points from first frame of the input video
         keypoints_birds_eye_view: mapping location of keypoints on the bird-eye view image
         actual_length: actual length in real-world
-        actual_length: actual width in real-world
+        actual_width: actual width in real-world
         pretrained_models: selected pretrained models
 
         '''
@@ -33,10 +33,10 @@ class Detect:
         self.pretrained_models = pretrained_models
     
     def __call__(self,img_path = None):
+        transformer = Bird_eye_view_Transformer(self.keypoints, self.keypoints_birds_eye_view, self.actual_length, self.actual_width, multi_pts = False)
         if img_path:
             print('Testing transformer.....')
             img = cv2.imread(img_path)
-            transformer = Bird_eye_view_Transformer(self.keypoints, self.keypoints_birds_eye_view, self.actual_length, self.actual_width, multi_pts = False)
             transformer.imshow(img)
         print('Starting detecting.....')
         detect_model = Bbox_detector(self.pretrained_models, transformer, mx.gpu())

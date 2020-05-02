@@ -1,2 +1,5 @@
 
-data/TownCentreXVID.avi
+SDD/data/TownCentreXVID.avi
+build/*
+dist/*
+SDD.egg-info/*

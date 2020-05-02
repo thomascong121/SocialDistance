@@ -1,5 +1,5 @@
 # SocialDistance
-Keep safe social distance is considered as an effective way of avoiding spreading of coronavirus. Our SocialDistance module __SDD__ is a lightweight package which provides an implementation of utlizing deep learning models for monitoring safe social distance.
+Keep safe social distance is considered as an effective way of avoiding spreading of coronavirus. Our SocialDistance module is a lightweight package which provides an implementation of utlizing deep learning models for monitoring safe social distance.
 
 # Demo
 [Watch the demo video](https://www.youtube.com/watch?v=1s46BJJj6rw&t=5s)
@@ -15,7 +15,7 @@ All our models are pretrained models from [Gluno CV Tookit](https://github.com/d
 # Installation
 You may be able to obtain the latest version our model from:
 ```
-pip install -i https://test.pypi.org/simple/ SocialDistance==0.1
+pip install SDD==0.1.5
 pip install gluoncv
 pip install mxnet-cu101
 ```
@@ -44,7 +44,4 @@ detect(image)
 - **actual_length**: actual length in real-world
 - **actual_width**: actual width in real-world
 - **pretrained_models**: selected pretrained models
-# Reference
-1. Landing AI 16 April 2020, Landing AI Creates an AI Tool to Help Customers Monitor Social Distancing in the Workplace, accessed 19 April 2020, <https://landing.ai/landing-ai-creates-an-ai-tool-to-help-customers-monitor-social-distancing-in-the-workplace/>
-
 
