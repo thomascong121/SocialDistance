@@ -15,9 +15,7 @@ All our models are pretrained models from [Gluno CV Tookit](https://github.com/d
 # Installation
 You may be able to obtain the latest version our model from:
 ```
-pip install -i https://test.pypi.org/simple/ SocialDistance==0.1
-pip install gluoncv
-pip install mxnet-cu101
+pip install SDD
 ```
 
 # Usage
