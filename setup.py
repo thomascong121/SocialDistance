@@ -6,14 +6,12 @@ requirements = [
     'tqdm',
     'mxnet',
     'matplotlib',
-    'portalocker',
-    'cv2',
     'gluoncv'
 ]
 setup(
     # Metadata
     name = 'SDD',
-    version = '0.1.6',
+    version = '0.1.9',
     description = 'lightweight video detection',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -34,6 +32,7 @@ setup(
 
 #steps:
 '''
+rm -r SDD.egg-info/ build/ dist/
 python3 -m pip install --user --upgrade setuptools wheel
 python3 -m pip install --user --upgrade twine
 python3 setup.py sdist bdist_wheel
