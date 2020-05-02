@@ -44,4 +44,5 @@ detect(image)
 - **actual_length**: actual length in real-world
 - **actual_width**: actual width in real-world
 - **pretrained_models**: selected pretrained models
-
+# Reference
+1. Landing AI 16 April 2020, Landing AI Creates an AI Tool to Help Customers Monitor Social Distancing in the Workplace, accessed 19 April 2020, <https://landing.ai/landing-ai-creates-an-ai-tool-to-help-customers-monitor-social-distancing-in-the-workplace/>
