@@ -11,7 +11,7 @@ requirements = [
 setup(
     # Metadata
     name = 'SDD',
-    version = '0.2.0',
+    version = '0.2.2',
     description = 'lightweight video detection',
     long_description=long_description,
     long_description_content_type="text/markdown",

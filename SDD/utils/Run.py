@@ -19,7 +19,6 @@ class Detect:
         actual_length: actual length in real-world
         actual_width: actual width in real-world
         pretrained_models: selected pretrained models
-
         '''
         self.keypoints = keypoints
         self.keypoints_birds_eye_view = keypoints_birds_eye_view
