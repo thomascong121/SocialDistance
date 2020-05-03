@@ -4,14 +4,14 @@ with open("README.md","r") as fh:
 requirements = [
     'numpy',
     'tqdm',
-    'mxnet',
+    'mxnet-cu101',
     'matplotlib',
     'gluoncv'
 ]
 setup(
     # Metadata
     name = 'SDD',
-    version = '0.1.9',
+    version = '0.2.0',
     description = 'lightweight video detection',
     long_description=long_description,
     long_description_content_type="text/markdown",
