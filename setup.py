@@ -4,7 +4,7 @@ with open("README.md","r") as fh:
 requirements = [
     'numpy',
     'tqdm',
-    'mxnet',
+    'mxnet-cu101',
     'matplotlib',
     'gluoncv'
 ]
