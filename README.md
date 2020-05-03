@@ -18,10 +18,11 @@ You may be able to obtain the latest version our model from:
 pip install SDD
 ```
 
-# Usage
+# How to Use
 After Successfully installed SocialDistance, you can use it for detection by:
 ```
-from SocialDistance.utils.Run import Detect
+import SDD
+from SDD.utils.Run import Detect
 detect = Detect()
 detector = detect(video_save_path = output_path, interval = 10)
 detector(video_path)
@@ -29,11 +30,9 @@ detector(video_path)
 
 > Parameters
 > ----------
-- **keypoints**: selected key points from first frame of the input video
-- **keypoints_birds_eye_view**: mapping location of keypoints on the bird-eye view image
-- **actual_length**: actual length in real-world
-- **actual_width**: actual width in real-world
-- **pretrained_models**: selected pretrained models
+- **video_save_path**: Path where you want to save the output video
+- **video_path**: Path where your input video is stored
+- **interval**: frequency for sampling frames
 # Reference
 1. Landing AI 16 April 2020, Landing AI Creates an AI Tool to Help Customers Monitor Social Distancing in the Workplace, accessed 19 April 2020, <https://landing.ai/landing-ai-creates-an-ai-tool-to-help-customers-monitor-social-distancing-in-the-workplace/>
 
