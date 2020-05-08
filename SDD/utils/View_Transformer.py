@@ -10,6 +10,7 @@ from copy import deepcopy
 from tqdm import tqdm
 from gluoncv import model_zoo, data, utils
 
+
 class Bird_eye_view_Transformer:
     def __init__(self, keypoints, keypoints_birds_eye_view, actual_length, actual_width, multi_pts = False):
         '''
@@ -52,7 +53,6 @@ class Bird_eye_view_Transformer:
         for i in range(nw+1):
           new_pt_x = row_start[0]+i*width_top
           new_pt_y = row_start[1]+i*width_bottom
-          # print('pt are ',(new_pt_x,new_pt_y))
           rst.append((new_pt_x,new_pt_y))
 
       return rst

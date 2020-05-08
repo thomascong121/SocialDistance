@@ -7,6 +7,7 @@ import numpy as np
 import cv2
 import os
 import gluoncv
+import math
 
 from matplotlib import pyplot as plt
 from mxnet import nd
@@ -20,7 +21,7 @@ class Bbox_detector:
         self.transformer = transformer
         self.net = model_zoo.get_model(selected_model, pretrained=True, ctx = self.device)
 
-    def __call__(self,image,display=False):
+    def __call__(self, image, transform, display = False):
         '''get bbox for input image'''
         image = nd.array(image)
         x, orig_img = data.transforms.presets.yolo.transform_test(image)
@@ -45,7 +46,7 @@ class Bbox_detector:
         #img with bbox 
 
         img_with_bbox = utils.viz.cv_plot_bbox(image.astype('uint8'), p3[0], p2[0], p1[0], colors={14: (0,255,0)},class_names = self.net.classes, linewidth=3)
-        result_img = self.bbox_distance(bbox_center,img_with_bbox)
+        result_img = self.bbox_distance(p3, bbox_center, img_with_bbox, transform)
         if display:
           plt.imshow(result_img)
           plt.show()
@@ -73,7 +74,7 @@ class Bbox_detector:
 
         return rst.asnumpy()
 
-    def bbox_distance(self,bbox_coord,img, max_detect = 4, safe= 1.5):
+    def bbox_distance(self, bbox_coord, bbox_center_coord, img, transform, max_detect = 4, safe= 1.5):
         '''
         calculate distance between each bbox, 
         if distance < safe, draw a red line
@@ -81,18 +82,22 @@ class Bbox_detector:
         #draw the center
         safe = safe**2
         max_detect = max_detect**2
-        for coor in range(len(bbox_coord)):
-            cv2.circle(img,(int(bbox_coord[coor][0]),int(bbox_coord[coor][1])),5,(0, 0, 255),-1)
-
-        bird_eye_view = self.transformer(deepcopy(bbox_coord))
-        # print(bird_eye_view)
+        for coor in range(len(bbox_center_coord)):
+            cv2.circle(img,(int(bbox_center_coord[coor][0]),int(bbox_center_coord[coor][1])),5,(0, 0, 255),-1)
         # self.transformer.imshow(img)
-
-        for i in range(0, len(bbox_coord)):
-            for j in range(i+1, len(bbox_coord)):
-                dist = self.transformer.distance(bird_eye_view[i], bird_eye_view [j])
-                # print(bird_eye_view[i], bird_eye_view [j],dist)
-                if dist < safe:
-                    cv2.line(img,(bbox_coord[i][0],bbox_coord[i][1]),(bbox_coord[j][0],bbox_coord[j][1]),(255, 0, 0), 2)
+        for i in range(0, len(bbox_coord[0])):
+            (xmin, ymin, xmax, ymax) = bbox_coord[0][i].copyto(mx.cpu())
+            height = abs(ymax - ymin)
+            height = height.asscalar()
+            for j in range(i+1, len(bbox_coord[0])):
+                if transform:
+                  bird_eye_view = self.transformer(deepcopy(bbox_center_coord))
+                  dist = self.transformer.distance(bird_eye_view[i], bird_eye_view [j])
+                  if dist < safe:
+                    cv2.line(img,(bbox_center_coord[i][0],bbox_center_coord[i][1]),(bbox_center_coord[j][0],bbox_center_coord[j][1]),(255, 0, 0), 2)
+                else:
+                  dist = math.sqrt((bbox_center_coord[i][0] - bbox_center_coord[j][0])**2 + (bbox_center_coord[i][1] - bbox_center_coord[j][1])**2)
+                  if dist < height:
+                    cv2.line(img,(bbox_center_coord[i][0],bbox_center_coord[i][1]),(bbox_center_coord[j][0],bbox_center_coord[j][1]),(255, 0, 0), 2)   
 
         return img

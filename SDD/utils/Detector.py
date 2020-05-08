@@ -18,7 +18,7 @@ class Detector:
     self.interval = interval
     self.batch_size = batch_size
 
-  def __call__(self, filename):
+  def __call__(self, filename, transform = True):
     v_cap = cv2.VideoCapture(filename)
     v_len = int(v_cap.get(cv2.CAP_PROP_FRAME_COUNT))
     frame_size = (v_cap.get(cv2.CAP_PROP_FRAME_WIDTH), v_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -45,7 +45,8 @@ class Detector:
       frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
       if i in sample:
-        frame, p1, p2, p3, bbox_center = self.detector(frame)
+
+        frame, p1, p2, p3, bbox_center = self.detector(frame, transform)
       else:
         frame = self.detector.show(frame, p1, p2, p3, bbox_center)
       # plt.imshow(frame)
