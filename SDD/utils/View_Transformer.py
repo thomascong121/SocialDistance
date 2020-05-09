@@ -10,7 +10,6 @@ from copy import deepcopy
 from tqdm import tqdm
 from gluoncv import model_zoo, data, utils
 
-
 class Bird_eye_view_Transformer:
     def __init__(self, keypoints, keypoints_birds_eye_view, actual_length, actual_width, multi_pts = False):
         '''
@@ -20,13 +19,13 @@ class Bird_eye_view_Transformer:
         2   3
         '''
         if not multi_pts:
-          self.keypoint = np.float32(keypoints)
-          self.keypoints_birds_eye_view = np.float32(keypoints_birds_eye_view) 
-          self.M = cv2.getPerspectiveTransform(self.keypoint, self.keypoints_birds_eye_view)
+            self.keypoint = np.float32(keypoints)
+            self.keypoints_birds_eye_view = np.float32(keypoints_birds_eye_view) 
+            self.M = cv2.getPerspectiveTransform(self.keypoint, self.keypoints_birds_eye_view)
         else:
-          self.keypoint = np.float32(self.generate_grid(keypoints))
-          self.keypoints_birds_eye_view = np.float32(self.generate_grid(keypoints_birds_eye_view))
-          self.M, self.mask = cv2.findHomography(self.keypoint, self.keypoints_birds_eye_view, cv2.RANSAC)
+            self.keypoint = np.float32(self.generate_grid(keypoints))
+            self.keypoints_birds_eye_view = np.float32(self.generate_grid(keypoints_birds_eye_view))
+            self.M, self.mask = cv2.findHomography(self.keypoint, self.keypoints_birds_eye_view, cv2.RANSAC)
         # print(keypoints_birds_eye_view[0],keypoints_birds_eye_view[-1])
         self.width_ratio = actual_width/(keypoints_birds_eye_view[-1][0] - keypoints_birds_eye_view[0][0])
         self.length_ratio = actual_length/(keypoints_birds_eye_view[-1][1] - keypoints_birds_eye_view[0][1])
@@ -38,24 +37,25 @@ class Bird_eye_view_Transformer:
         plt.show()
 
     def generate_grid(self, keypoints, nw = 5, nh = 5):
-      height_left = abs(keypoints[2][1]-keypoints[0][1]) // nh
-      height_right = abs(keypoints[3][1]-keypoints[1][1]) // nh
+        height_left = abs(keypoints[2][1]-keypoints[0][1]) // nh
+        height_right = abs(keypoints[3][1]-keypoints[1][1]) // nh
 
-      width_left = abs(keypoints[2][0]-keypoints[0][0]) // nw 
-      width_right = abs(keypoints[3][0]-keypoints[1][0]) // nw 
-      rst = []
-      for j in range(nh+1):
-        row_start = (keypoints[0][0] - j * width_left, keypoints[0][1] + j * height_left)
-        row_end = (keypoints[1][0] - j * width_right, keypoints[1][1] + j * height_right)
-        width_top = abs(row_start[0]- row_end[0])//nw
-        width_bottom = abs(row_start[1]- row_end[1])//nw
-        
-        for i in range(nw+1):
-          new_pt_x = row_start[0]+i*width_top
-          new_pt_y = row_start[1]+i*width_bottom
-          rst.append((new_pt_x,new_pt_y))
+        width_left = abs(keypoints[2][0]-keypoints[0][0]) // nw 
+        width_right = abs(keypoints[3][0]-keypoints[1][0]) // nw 
+        rst = []
+        for j in range(nh+1):
+            row_start = (keypoints[0][0] - j * width_left, keypoints[0][1] + j * height_left)
+            row_end = (keypoints[1][0] - j * width_right, keypoints[1][1] + j * height_right)
+            width_top = abs(row_start[0]- row_end[0])//nw
+            width_bottom = abs(row_start[1]- row_end[1])//nw
+            
+            for i in range(nw+1):
+                new_pt_x = row_start[0]+i*width_top
+                new_pt_y = row_start[1]+i*width_bottom
+                # print('pt are ',(new_pt_x,new_pt_y))
+                rst.append((new_pt_x,new_pt_y))
 
-      return rst
+        return rst
 
     def __call__(self, points):
         h = points.shape[0]

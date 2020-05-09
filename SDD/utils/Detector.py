@@ -10,15 +10,15 @@ from copy import deepcopy
 from tqdm import tqdm
 from gluoncv import model_zoo, data, utils
 
-
 class Detector:  
-  def __init__(self, model, save_path = './detections', batch_size = 60, interval = None):
+  def __init__(self, model, threshold = 0.7, save_path = './detections', batch_size = 60, interval = None):
     self.detector = model
     self.save_path = save_path
     self.interval = interval
+    self.threshold = threshold
     self.batch_size = batch_size
 
-  def __call__(self, filename, transform = True):
+  def __call__(self, filename):
     v_cap = cv2.VideoCapture(filename)
     v_len = int(v_cap.get(cv2.CAP_PROP_FRAME_COUNT))
     frame_size = (v_cap.get(cv2.CAP_PROP_FRAME_WIDTH), v_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -35,24 +35,22 @@ class Detector:
       sample = np.arange(0, v_len)
     else:
       sample = np.arange(0, v_len, self.interval)
-    frame = p1 = p2 = p3 = bbox_center =None
+    frame = p1 = p2 = p3 = bbox_center = edges = None
     for i in tqdm(range(v_len)):
-      success = v_cap.grab()
-      
-      success, frame = v_cap.retrieve()
-      if not success:
-        continue
-      frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        success = v_cap.grab()
+        success, frame = v_cap.retrieve()
+        if not success:
+            continue
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-      if i in sample:
-
-        frame, p1, p2, p3, bbox_center = self.detector(frame, transform)
-      else:
-        frame = self.detector.show(frame, p1, p2, p3, bbox_center)
-      # plt.imshow(frame)
-      # plt.show()
-      frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-      out.write(frame)
+        if i in sample:
+            frame, p1, p2, p3, bbox_center, edges = self.detector(frame, threshold = self.threshold)
+        else:
+            frame = self.detector.show(frame, p1, p2, p3, bbox_center, edges)
+        # plt.imshow(frame)
+        # plt.show()
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        out.write(frame)
 
     v_cap.release()
     return out
