@@ -10,7 +10,7 @@ from copy import deepcopy
 from tqdm import tqdm
 from gluoncv import model_zoo, data, utils
 
-class Detector:  
+class VideoDetector:  
   def __init__(self, model, threshold = 0.7, save_path = './detections', batch_size = 60, interval = None):
     self.detector = model
     self.save_path = save_path
@@ -47,10 +47,31 @@ class Detector:
             frame, p1, p2, p3, bbox_center, edges = self.detector(frame, threshold = self.threshold)
         else:
             frame = self.detector.show(frame, p1, p2, p3, bbox_center, edges)
-        # plt.imshow(frame)
-        # plt.show()
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         out.write(frame)
 
     v_cap.release()
     return out
+class ImageDetector:  
+  def __init__(self, model, threshold = 0.7, save_path = './detections', batch_size = 60):
+    self.detector = model
+    self.save_path = save_path
+    self.threshold = threshold
+    self.batch_size = batch_size
+
+  def __call__(self, filename):
+    if not os.path.exists(self.save_path):
+        os.mkdir(self.save_path)
+    print(f'Image saved at {self.save_path}/{filename.split("/")[-1]}')
+    frames = os.listdir(filename)
+    frame = p1 = p2 = p3 = bbox_center = edges = None
+    for i in tqdm(range(len(frames))):
+        if not filename + '/' + frames[i]:
+          continue
+        frame = cv2.imread(filename + '/' + frames[i])
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame, p1, p2, p3, bbox_center, edges = self.detector(frame, threshold = self.threshold)
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        cv2.imwrite(self.save_path + '/saved_'+frames[i], frame)
+    return 
+

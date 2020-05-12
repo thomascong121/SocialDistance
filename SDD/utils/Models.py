@@ -15,12 +15,11 @@ from copy import deepcopy
 from tqdm import tqdm
 from gluoncv import model_zoo, data, utils
 
-import math
 get_model = {
     'yolo_v3': lambda device: model_zoo.get_model('yolo3_darknet53_voc', pretrained=True, ctx = device),
     'ssd': lambda device: model_zoo.get_model('ssd_512_resnet50_v1_voc', pretrained=True, ctx = device),
     'faster_rcnn': lambda device: model_zoo.get_model('faster_rcnn_resnet50_v1b_voc', pretrained=True, ctx = device),
-    'center_net': lambda device: model_zoo.get_model('center_net_resnet18_v1b_voc', pretrained=True, ctx = device)
+    'center_net': lambda device: model_zoo.get_model('center_net_resnet101_v1b_voc', pretrained=True, ctx = device)
 }
 
 image_transform = {
@@ -57,7 +56,8 @@ class Bbox_detector:
                 person_index.append(i)
 
         if len(person_index) == 0:
-            return image.asnumpy()
+            image = image.astype('uint8')
+            return image.asnumpy(), [], [], [], [], []
         #select bbox of person
         #p1:bbox id of person
         #p2:confidence score
@@ -83,8 +83,10 @@ class Bbox_detector:
             img = mx.image.imresize(nd.array(img).astype('uint8'), self.shape[1], self.shape[0])
         else:
             img = nd.array(img).astype('uint8')
-        img_with_bbox = utils.viz.cv_plot_bbox(img, p3[0], p2[0], p1[0], colors={14: (0,255,0)},class_names = self.net.classes, linewidth=1)
 
+        if len(p1) == 0: return img.asnumpy()
+
+        img_with_bbox = utils.viz.cv_plot_bbox(img, p3[0], p2[0], p1[0], colors={14: (0,255,0)},class_names = self.net.classes, linewidth=1)
         for coor in range(len(bbox_center)):
             cv2.circle(img_with_bbox, (int(bbox_center[coor][0]), int(bbox_center[coor][1])), 5 ,(0, 0, 255), -1)
         
@@ -135,3 +137,7 @@ class Bbox_detector:
                         edges.add(((bbox_center_coord[i][0], bbox_center_coord[i][1]), (bbox_center_coord[j][0], bbox_center_coord[j][1])))
                         cv2.line(img,(bbox_center_coord[i][0],bbox_center_coord[i][1]),(bbox_center_coord[j][0],bbox_center_coord[j][1]),(255, 0, 0), 2)   
         return img, edges
+
+
+#result <class 'numpy.ndarray'>
+#no bbox <class 'numpy.ndarray'>

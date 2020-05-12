@@ -3,7 +3,7 @@
 import cv2
 import mxnet as mx
 from .View_Transformer import Bird_eye_view_Transformer
-from .Detector import Detector
+from .Detector import VideoDetector, ImageDetector
 from .Models import Bbox_detector
 class Detect:
     def __init__(self, keypoints = [(1175,  189), (1574,  235), (364,  694), (976,  831)], \
@@ -27,8 +27,8 @@ class Detect:
         self.pretrained_models = pretrained_models
         self.transformer = Bird_eye_view_Transformer(self.keypoints, self.keypoints_birds_eye_view, self.actual_length, self.actual_width, multi_pts = False)
     
-    def __call__(self, video_save_path, threshold = 0.7, need_view_tranformer = False, interval = 1):
+    def __call__(self, save_path, video = True, threshold = 0.7, need_view_tranformer = False, interval = 1):
         transformer = self.transformer if need_view_tranformer == True else None
         detect_model = Bbox_detector(self.pretrained_models, transformer, mx.gpu())
-        detector = Detector(detect_model, threshold = threshold, save_path = video_save_path, interval = interval)
+        detector = VideoDetector(detect_model, threshold = threshold, save_path = save_path, interval = interval) if video else ImageDetector(detect_model, threshold = threshold, save_path = save_path)
         return detector
