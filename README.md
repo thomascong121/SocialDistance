@@ -30,11 +30,11 @@ _ = detector(file_path)
 
 > Parameters
 > ----------
-- **pretrained_models**: Currently, we provided two pretrained models: 'yolo_v3' and 'ssd'
-- **save_path**: Path where you want to save the output video/ images
-- **video**: If your input is a video, set this parameter as True, if your input is a set of images, set this parameter as False
+- **pretrained_models**: str, Currently, we provided two pretrained models: 'yolo_v3' and 'ssd'
+- **save_path**: str, Path where you want to save the output video/ images
+- **video**: boolean, If your input is a video, set this parameter as True, if your input is a set of images, set this parameter as False
 - **device**: mx.cpu() or mx.gpu()
-- **file_path**: Input path of your video or image folder
+- **file_path**: str, Input path of your video or image folder
 # Reference
 1. Landing AI 16 April 2020, Landing AI Creates an AI Tool to Help Customers Monitor Social Distancing in the Workplace, accessed 19 April 2020, <https://landing.ai/landing-ai-creates-an-ai-tool-to-help-customers-monitor-social-distancing-in-the-workplace/>
 
