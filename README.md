@@ -8,9 +8,9 @@ Keep safe social distance is considered as an effective way of avoiding spreadin
 We use the video clip collected from [OXFORD TOWN CENTRE](https://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html) dataset and made the above demo video.
 
 # Supported Models
-We have tested our model using Faster-RCNN, YOLO-v3 and SSD, based on the performance of each model, we have chosen YOLO-v3 as our default model
+We have tested our model using YOLO-v3 and SSD, based on the performance of each model, we have chosen YOLO-v3 as our default model
 
-All our models are pretrained models from [Gluno CV Tookit](https://github.com/dmlc/gluon-cv)
+All our pretrained models are selected from [Gluno CV Tookit](https://github.com/dmlc/gluon-cv)
 
 # Installation
 You may be able to obtain the latest version our model from:
