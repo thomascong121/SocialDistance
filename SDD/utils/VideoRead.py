@@ -18,26 +18,28 @@ class VideoRead:
         print('total frames: ',frames)
         print('frames size: ','1080*1920*3')
         print('fps :',fps)
-        for i in range(self.npics):
+        count = 0
+        need = [x for x in range(0, 4501, 45)]
+        for i in range(5000):
             ret,frame = cap.read()
-            print(type(frame),frame.shape)
-            cv2.imwrite(save_path + '/%d.jpg'%i,frame)
-            
-            img = cv2.imread(save_path + '/%d.jpg'%i)
-            h,w,c = img.shape
-            h = int(h*0.2)
-            w = int(w*0.5)
-            dim = (256,256)
-            reshaped = cv2.resize(img,dim)
-            cv2.imshow('img',reshaped)
-            cv2.waitKey()
-        print('read {0} out of {1} and save to {2}'.format(self.npics,frames,save_path))
+            if i in need:
+                cv2.imwrite(save_path + '/%d.jpg'%i,frame)
+                count += 1
+                
+                # img = cv2.imread(save_path + '/%d.jpg'%i)
+                # h,w,c = img.shape
+                # h = int(h*0.2)
+                # w = int(w*0.5)
+                # dim = (256,256)
+                # reshaped = cv2.resize(img,dim)
+                # cv2.imshow('img',reshaped)
+                # cv2.waitKey()
+        print('read {0} out of {1} and save to {2}'.format(count,frames,save_path))
 
 
 if __name__ == '__main__':
-    # reader = VideoRead(1)
-    # reader.frame_capture('../data/TownCentreXVID.avi','../video_frames')
-    # reader.frame_to_video('../video_frames')
-    img = cv2.imread('../video_frames/0.jpg')
-    plt.imshow(img)
-    plt.show()
+    reader = VideoRead(4501)
+    reader.frame_capture('/Users/congcong/Desktop/SocialDistanceDetector/SDD/data/TownCenter_dataset/TownCentreXVID.avi',\
+        '/Users/congcong/Desktop/SocialDistanceDetector/SDD/video_frames')
+    # plt.imshow(img)
+    # plt.show()
