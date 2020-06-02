@@ -23,16 +23,18 @@ After Successfully installed SocialDistance, you can use it for detection by:
 ```
 import SDD
 from SDD.utils.Run import Detect
-detect = Detect()
-detector = detect(video_save_path = output_path, interval = 10)
-detector(video_path)
+detect = Detect(pretrained_models = 'yolo_v3')
+detector = detect(save_path = output_path_image, video = False, device = mx.cpu())
+_ = detector(file_path)
 ```
 
 > Parameters
 > ----------
-- **video_save_path**: Path where you want to save the output video
-- **video_path**: Path where your input video is stored
-- **interval**: frequency for sampling frames
+- **pretrained_models**: Currently, we provided two pretrained models: 'yolo_v3' and 'ssd'
+- **save_path**: Path where you want to save the output video/ images
+- **video**: If your input is a video, set this parameter as True, if your input is a set of images, set this parameter as False
+- **device**: mx.cpu() or mx.gpu()
+- **file_path**: Input path of your video or image folder
 # Reference
 1. Landing AI 16 April 2020, Landing AI Creates an AI Tool to Help Customers Monitor Social Distancing in the Workplace, accessed 19 April 2020, <https://landing.ai/landing-ai-creates-an-ai-tool-to-help-customers-monitor-social-distancing-in-the-workplace/>
 
