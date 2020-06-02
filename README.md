@@ -22,6 +22,7 @@ pip install SDD
 After Successfully installed SocialDistance, you can use it for detection by:
 ```
 import SDD
+import mxnet as mx
 from SDD.utils.Run import Detect
 detect = Detect(pretrained_models = 'yolo_v3')
 detector = detect(save_path = output_path_image, video = False, device = mx.cpu())
