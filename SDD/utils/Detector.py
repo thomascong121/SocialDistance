@@ -26,9 +26,6 @@ class VideoDetector:
 
     def __call__(self, filename, groundTruth = None, metric = 'mean', scale = 1):
         all_dets = distance_gt = None
-        # if groundTruth:
-        #     all_dets = np.loadtxt(groundTruth, delimiter = ',')
-        #     distance_gt = list(map(int, list(set(all_dets[:,1]))))
         v_cap = cv2.VideoCapture(filename)
         v_len = int(v_cap.get(cv2.CAP_PROP_FRAME_COUNT))
         frame_size = (v_cap.get(cv2.CAP_PROP_FRAME_WIDTH), v_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -41,25 +38,17 @@ class VideoDetector:
         out = cv2.VideoWriter(f'{self.save_path}/{filename.split("/")[-1]}', fourcc, fps,\
                             (int(frame_size[0]), int(frame_size[1])))   
         
-        # if self.interval is None:
-        #     sample = np.arange(0, v_len)
-        # else:
-        #     sample = np.arange(0, v_len, self.interval)
         frame = p1 = p2 = p3 = bbox_center = edges = None
         TP = FP = TN = FN = extra = 0
         precision_per_frame = np.array([])
         recall_per_frame = np.array([])
-        # print('add_det',distance_gt)
         for i in tqdm(range(v_len)):#200
             success = v_cap.grab()
             success, frame = v_cap.retrieve()
             if not success:
                 continue
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # if i in sample:
             frame, _TP, _FP, _TN, _FN, _extra = self.detector(frame, groundTruth, metric = metric, scale = scale, frame_number = i, threshold = self.threshold)
-            # else:
-            #     frame = self.detector.show(frame, p1, p2, p3, bbox_center, edges)
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
             out.write(frame)
             TP += _TP
@@ -70,11 +59,8 @@ class VideoDetector:
             precision_frame, recall_frame = accur_metric(TP, TN, FP, FN)
             precision_per_frame = np.hstack((precision_per_frame, [precision_frame]))
             recall_per_frame = np.hstack((recall_per_frame, [recall_frame]))
-        print(f'Image saved at {self.save_path}/{filename.split("/")[-1]}')
         v_cap.release()
         if groundTruth != None:
-            # precision_video, recall_video = metric(TP, TN, FP, FN)
-        # print(' ===== Video Detection Done, Precision is {0} and recall is {1}: '.format(precision_video, recall_video))
             print('\n Mean Average Precision and Recall is', np.mean(precision_per_frame), np.mean(recall_per_frame))
         print(f'Video saved at {self.save_path}/{filename.split("/")[-1]}')
         return out, TP, FP, TN, FN, extra
@@ -129,8 +115,6 @@ class ImageDetector:
             recall_per_frame = np.hstack((recall_per_frame, [recall_frame]))
 
         if groundTruth != None:
-            # precision_video, recall_video = metric(TP, TN, FP, FN)
-        # print('\n ===== Video Detection Done, Precision is {0} and recall is {1}: '.format(precision_video, recall_video))
             print('Mean Average Precision and Recall is', np.mean(precision_per_frame), np.mean(recall_per_frame))
        
         print(f'Video saved at {self.save_path}/')
