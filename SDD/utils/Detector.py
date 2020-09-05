@@ -1,7 +1,6 @@
 import mxnet as mx
 import numpy as np
 import cv2
-from skimage import io
 import os
 import gluoncv
 import csv
@@ -17,14 +16,27 @@ def accur_metric(TP, TN, FP, FN):
     recall = 1 if TP + FN == 0 else TP / (TP + FN)
     return precision, recall
 class VideoDetector:  
-    def __init__(self, model, threshold = 0.7, save_path = './detections', batch_size = 60, interval = None):
+    def __init__(self, model, threshold = 0.7, save_path = './detections'):
+        '''
+        Parameters
+        ----------
+        model: selected model
+        threshold: bounding box with score larger than threshold will be kept
+        save_path: output path of the labelled video
+        '''
         self.detector = model
         self.save_path = save_path
-        self.interval = interval
         self.threshold = threshold
-        self.batch_size = batch_size
 
     def __call__(self, filename, groundTruth = None, metric = 'mean', scale = 1):
+        '''
+        Parameters
+        ----------
+        filename: path to input video
+        groundTruth: file contain social distance groundtruths
+        metric: metric used to calculate distance between bounding boxes
+        scale: bounding boxes will be scaled before calculating distance between them
+        '''
         all_dets = distance_gt = None
         v_cap = cv2.VideoCapture(filename)
         v_len = int(v_cap.get(cv2.CAP_PROP_FRAME_COUNT))
@@ -65,13 +77,27 @@ class VideoDetector:
         print(f'Video saved at {self.save_path}/{filename.split("/")[-1]}')
         return out, TP, FP, TN, FN, extra
 class ImageDetector:  
-    def __init__(self, model, threshold = 0.7, save_path = './detections', batch_size = 60):
+    def __init__(self, model, threshold = 0.7, save_path = './detections'):
+        '''
+        Parameters
+        ----------
+        model: selected model
+        threshold: bounding box with score larger than threshold will be kept
+        save_path: output path of the labelled video
+        '''
         self.detector = model
         self.save_path = save_path
         self.threshold = threshold
-        self.batch_size = batch_size
 
     def __call__(self, imgpath, groundTruth=None, metric = 'mean', scale = 1):
+        '''
+        Parameters
+        ----------
+        filename: path to input video
+        groundTruth: file contain social distance groundtruths
+        metric: metric used to calculate distance between bounding boxes
+        scale: bounding boxes will be scaled before calculating distance between them
+        '''
         all_dets = distance_gt = None
         if groundTruth:
             all_dets = np.loadtxt(groundTruth, delimiter = ',')
@@ -80,7 +106,6 @@ class ImageDetector:
             os.mkdir(self.save_path)
         frames = os.listdir(imgpath)
         frame = p1 = p2 = p3 = bbox_center = edges = None
-        # diff = np.array([])
         TP = FP = TN = FN = extra = 0
         precision_per_frame = np.array([])
         recall_per_frame = np.array([])
@@ -93,17 +118,14 @@ class ImageDetector:
             
             if not imgpath + '/' + frames[i]:
                 continue
-            # print('frnumber is ',imgpath + '/' + frames[i])
             try:
               frame = cv2.imread(imgpath + '/' + frames[i])
               frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             except:
               continue
-            # print('frnumber is ',fnumbers, sorted(distance_gt))
             frame, _TP, _FP, _TN, _FN, _extra  = self.detector(frame, groundTruth, metric = metric, scale = scale, frame_number = fnumbers, threshold = self.threshold)
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
             cv2.imwrite(self.save_path + '/saved_'+frames[i], frame)
-            # print('write ',self.save_path + '/saved_'+frames[i])
 
             TP += _TP
             FP += _FP

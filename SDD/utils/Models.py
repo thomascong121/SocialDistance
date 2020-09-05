@@ -49,7 +49,7 @@ class Bbox_detector:
         self.class_person = {}
         
         if trained:
-          self.param = '/Users/congcong/Desktop/SocialDistanceDetector/SDD/trained_models/yolo_r_best_422.params' if selected_model == 'yolo_v3' else '/Users/congcong/Desktop/SocialDistanceDetector/SDD/trained_models/ssd_best_repl_34.params'
+          self.param = '../trained_models/yolo_r_best_422.params' if selected_model == 'yolo_v3' else '../trained_models/ssd_best_repl_34.params'
           self.model = selected_model + '_trained'
           self.net = get_model[self.model](self.device)
           self.class_person[0] = 'person'
@@ -217,5 +217,4 @@ class Bbox_detector:
                         close_bbox += [i] if i not in close_bbox else []
                         close_bbox += [j] if j not in close_bbox else []
         TP, FP, TN, FN, extra = self.accuracy_calculation(frame_number, bbox_coord, close_bbox)
-        # print('TP FP TN FN ', TP,FP,TN,FN,extra,frame_number)
         return img, TP, FP, TN, FN, extra, close_bbox
