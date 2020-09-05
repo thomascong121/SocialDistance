@@ -29,3 +29,7 @@ detector = detect(save_path, video = True, threshold = 0.5, need_view_tranformer
 out, TP, FP, TN, FN, extra = detector(video_path, image_groundTruth)
 ```
 Running the above code will generate a lablled video. Moreover, `image_groundTruth` is a file contains the labelled (safe or unsafe) data. We have mannually labelled all three datasets and the `image_groundTruth` for all three dataset will be provided on request. 
+
+# Support
+For any issues, please contact me at:
+Thomas Cong: thomascong@outlook.com
