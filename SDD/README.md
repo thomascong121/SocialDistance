@@ -15,7 +15,7 @@ All pretrained models are from [Gluno CV Tookit](https://github.com/dmlc/gluon-c
 # Installation
 You may be able to obtain the latest version our model from:
 ```
-pip install SDD==0.1.5
+pip install SDD==0.2.2.7
 pip install gluoncv
 pip install mxnet-cu101
 ```
