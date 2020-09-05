@@ -10,7 +10,7 @@ We use the video clip collected from [OXFORD TOWN CENTRE](https://www.robots.ox.
 # Supported Models
 We have tested our model using Faster-RCNN, YOLO-v3 and SSD, based on the performance of each model, we have chosen YOLO-v3 as our default model
 
-All our models are pretrained models from [Gluno CV Tookit](https://github.com/dmlc/gluon-cv)
+All pretrained models are from [Gluno CV Tookit](https://github.com/dmlc/gluon-cv). Besides, we have trained a YOLO-v3 and SSD using data from [Caltech](http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/)
 
 # Installation
 You may be able to obtain the latest version our model from:
@@ -24,24 +24,8 @@ pip install mxnet-cu101
 After Successfully installed SocialDistance, you can use it for detection by:
 ```
 from SocialDistance.utils.Run import Detect
-detect = Detect()
-#you may want to give an image as input to check the validity of bird-eye view transformation
-detect(image)
+detect = Detect(keypoints, keypoints_birds_eye_view, actual_length, actual_width, pretrained_models, trained)
+detector = detect(save_path, video = True, threshold = 0.5, need_view_tranformer = False, device = mx.gpu())
+out, TP, FP, TN, FN, extra = detector(video_path, image_groundTruth)
 ```
-If no arguments is given, our model will run using the default data collected from 'OXFORD TOWN CENTRE' dataset, otherwise you may want to specify arguments expicitly:
-```
-from SocialDistance.utils.Run import Detect
-detect = Detect(video_path, video_save_path, keypoints, keypoints_birds_eye_view, actual_length, actual_width, pretrained_models)
-#you may want to give an image as input to check the validity of bird-eye view transformation
-detect(image)
-```
-> Parameters
-> ----------
-- **video_path**: input path of video
-- **video_save_path**: output path of labelled video
-- **keypoints**: selected key points from first frame of the input video
-- **keypoints_birds_eye_view**: mapping location of keypoints on the bird-eye view image
-- **actual_length**: actual length in real-world
-- **actual_width**: actual width in real-world
-- **pretrained_models**: selected pretrained models
-
+Running the above code will generate a lablled video. Moreover, `image_groundTruth` is a file contains the labelled (safe or unsafe) data. We have mannually labelled all three datasets and the `image_groundTruth` for all three dataset will be provided on request. 
