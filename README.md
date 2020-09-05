@@ -27,10 +27,21 @@ from SocialDistance.utils.Run import Detect
 detect = Detect(keypoints, keypoints_birds_eye_view, actual_length, actual_width, pretrained_models, trained)
 detector = detect(save_path, video = True, threshold = 0.5, need_view_tranformer = False, device = mx.gpu())
 out, TP, FP, TN, FN, extra = detector(video_path, image_groundTruth)
+
+#Example:
+video_path = path to your video
+img_path = path to your video frames
+output_path_video = path to your output video
+image_groundTruth = path to your ground truth file
+
+# YOLOv3 test
+detect = Detect(pretrained_models = 'yolo_v3')
+detector = detect(save_path = output_path_video, video = False, need_view_tranformer = False, device = mx.cpu())
+out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth)
 ```
-Running the above code will generate a lablled video. Moreover, `image_groundTruth` is a file contains the labelled (safe or unsafe) data. We have mannually labelled all three datasets and the `image_groundTruth` for all three dataset will be provided on request. 
+Running the above code will generate a lablled video. Moreover, `image_groundTruth` is a file contains the labelled (safe or unsafe) data. We have mannually labelled all three datasets, the sampled video frames and the `image_groundTruth` for all three dataset will be provided on request. 
 
 # Support
-For any issues, please contact me at:
-Thomas Cong: thomascong@outlook.com,
+For any issues, please contact me at:  
+Thomas Cong: thomascong@outlook.com,  
 Zhichao Yang: yzcwansui@outlook.com
