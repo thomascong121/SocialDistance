@@ -10,7 +10,7 @@ We use the video clip collected from [OXFORD TOWN CENTRE](https://www.robots.ox.
 # Supported Models
 We have tested our model using Faster-RCNN, YOLO-v3 and SSD, based on the performance of each model, we have chosen YOLO-v3 as our default model
 
-All pretrained models are from [Gluno CV Tookit](https://github.com/dmlc/gluon-cv). Besides, we have trained a YOLO-v3 and SSD using data from [Caltech](http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/)
+All pretrained models are from [Gluno CV Tookit](https://github.com/dmlc/gluon-cv). Besides, we have trained a YOLO-v3 and SSD using data from [Caltech](http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/), the trained weights will be provided on request.
 
 # Installation
 You may be able to obtain the latest version our model from:
