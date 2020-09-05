@@ -2,9 +2,9 @@
 # from Transformer import Bird_eye_view_Transformer
 import cv2
 import mxnet as mx
-from .View_Transformer import Bird_eye_view_Transformer
-from .Detector import VideoDetector, ImageDetector
-from .Models import Bbox_detector
+from View_Transformer import Bird_eye_view_Transformer
+from Detector import VideoDetector, ImageDetector
+from Models import Bbox_detector
 class Detect:
     def __init__(self, keypoints = [(1175,  189), (1574,  235), (364,  694), (976,  831)], \
         keypoints_birds_eye_view = [(900,  300), (1200,  300), (900,  900), (1200,  900)], \
@@ -28,11 +28,19 @@ class Detect:
         self.pretrained_models = pretrained_models
         self.transformer = Bird_eye_view_Transformer(self.keypoints, self.keypoints_birds_eye_view, self.actual_length, self.actual_width, multi_pts = False)
     
-    def __call__(self, save_path, video = True, threshold = 0.5, need_view_tranformer = False, interval = 1, device = mx.gpu()):
+    def __call__(self, save_path, video = True, threshold = 0.5, need_view_tranformer = False, device = mx.gpu()):
+        '''
+        Parameters
+        ----------
+        save_path: path where the labelled video will be saved
+        video: if True, video detector will be used, otherwise, image detector will be used
+        threshold: bounding box with score larger than threshold will be kept
+        need_view_tranformer: if True, video frame will be transformed to bird-eye view for process
+        '''
         transformer = self.transformer if need_view_tranformer == True else None
         # detect_model = Bbox_detector('ssd_trained',)
         detect_model = Bbox_detector(self.pretrained_models, trained = self.trained, transformer = transformer, device = device)
-        detector = VideoDetector(detect_model, threshold = threshold, save_path = save_path, interval = interval) if video else ImageDetector(detect_model, threshold = threshold, save_path = save_path)
+        detector = VideoDetector(detect_model, threshold = threshold, save_path = save_path) if video else ImageDetector(detect_model, threshold = threshold, save_path = save_path)
         return detector
 
 
@@ -44,31 +52,31 @@ class Detect:
 #     video_groundTruth = '/Users/congcong/Desktop/SocialDistanceDetector/SDD/data/TownCenter_dataset/TownCentreXVID-groundtruth.top'
 #     image_groundTruth = '/Users/congcong/Desktop/SocialDistanceDetector/SDD/data/mall_dataset/Mall-groundtruth.top'
 
-#     #YOLOv3 test
-#     # detect = Detect(pretrained_models = 'yolo_v3')
-#     # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
-#     # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth)
+    # YOLOv3 test
+    # detect = Detect(pretrained_models = 'yolo_v3')
+    # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
+    # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth)
 
-#     # detect = Detect(pretrained_models = 'yolo_v3', trained = True)
-#     # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
-#     # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth)
+    # detect = Detect(pretrained_models = 'yolo_v3', trained = True)
+    # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
+    # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth)
 
-#     # detect = Detect(pretrained_models = 'yolo_v3')
-#     # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
-#     # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth,  metric='min')
+    # detect = Detect(pretrained_models = 'yolo_v3')
+    # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
+    # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth,  metric='min')
 
-#     # detect = Detect(pretrained_models = 'yolo_v3', trained = True)
-#     # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
-#     # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth, metric='scale',scale=0.8)
+    # detect = Detect(pretrained_models = 'yolo_v3', trained = True)
+    # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
+    # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth, metric='scale',scale=0.8)
 
-#     # detect = Detect(pretrained_models = 'yolo_v3')
-#     # detector = detect(save_path = output_path_video, video = True, need_view_tranformer = False, device = mx.cpu())
-#     # out, TP, FP, TN, FN, extra = detector(video_path)
+    # detect = Detect(pretrained_models = 'yolo_v3')
+    # detector = detect(save_path = output_path_video, video = True, need_view_tranformer = False, device = mx.cpu())
+    # out, TP, FP, TN, FN, extra = detector(video_path)
 
 #     #SSD test
-#     detect = Detect(pretrained_models = 'ssd')
-#     detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
-#     out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth)
+    # detect = Detect(pretrained_models = 'ssd')
+    # detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
+    # out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth)
 
 #     detect = Detect(pretrained_models = 'ssd', trained = True)
 #     detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
@@ -78,7 +86,7 @@ class Detect:
 #     detector = detect(save_path = output_path_image, video = False, need_view_tranformer = False, device = mx.cpu())
 #     out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth,metric='scale',scale=0.8)
 
-#     detect = Detect(pretrained_models = 'ssd', trained = True)
-#     detector = detect(save_path = output_path_video, video = True, need_view_tranformer = False, device = mx.cpu())
-#     out, TP, FP, TN, FN, extra = detector(video_path, video_groundTruth)
+    # detect = Detect(pretrained_models = 'ssd', trained = True)
+    # detector = detect(save_path = output_path_video, video = True, need_view_tranformer = False, device = mx.cpu())
+    # out, TP, FP, TN, FN, extra = detector(video_path, video_groundTruth)
 
