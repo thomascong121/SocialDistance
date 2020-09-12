@@ -47,7 +47,7 @@ If you find the code/data is useful, please cite the above paper:
 @inproceedings{2020SSD,
     title={Towards Enforcing Social Distancing Regulations with Occlusion-Aware Crowd Detection},
     booktitle={International Conference on Control, Automation, Robotics and Vision},
-    author={Cong Cong, Zhichao Yang, Yang Song and Maurice Pagnucco},
+    author={Cong Cong and Zhichao Yang and Yang Song and Maurice Pagnucco},
     year={2020}
 }
 ```
