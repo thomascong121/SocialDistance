@@ -7,10 +7,10 @@ Keeping safe social distance is considered an effective way to avoid the spreadi
 # Dataset
 We use the video clip collected from [OXFORD TOWN CENTRE](https://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html) dataset and made the above demo video. 
 
-We trained our detectors using data from [Caltech](http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/). Moreover, we tested our model on [OXFORD TOWN CENTRE](https://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html), [CUHK Square](https://www.ee.cuhk.edu.hk/~xgwang/CUHK_square.html) and [Mall](http://personal.ie.cuhk.edu.hk/~ccloy/downloads_mall_dataset.html)
+We trained our detectors using data from [Caltech](http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/). Moreover, we tested our model on [OXFORD TOWN CENTRE](https://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html), [CUHK Square](https://www.ee.cuhk.edu.hk/~xgwang/CUHK_square.html) and [Mall](http://personal.ie.cuhk.edu.hk/~ccloy/downloads_mall_dataset.html).
 
 # Supported Models
-We have tested our model using Faster-RCNN, CenterNet, YOLO-v3 and SSD. Based on the performance of each model, we have chosen YOLO-v3 as our default model
+We have tested our model using Faster-RCNN, CenterNet, YOLO-v3 and SSD. Based on the performance of each model, we have chosen YOLO-v3 as our default model.
 
 All pre-trained models are from [Gluno CV Tookit](https://github.com/dmlc/gluon-cv). Besides, we have trained YOLO-v3 and SSD using data from [Caltech](http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/). The trained model parameters will be available upon request. A demo on `SDD/Demo` shows how the training of YOLO-v3 using Caltech dataset was done.
 
