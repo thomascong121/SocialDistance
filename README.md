@@ -5,7 +5,9 @@ Keeping safe social distance is considered as an effective way of avoiding sprea
 [Watch the demo video](https://www.youtube.com/watch?v=1s46BJJj6rw&t=5s)
 
 # Dataset
-We use the video clip collected from [OXFORD TOWN CENTRE](https://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html) dataset and made the above demo video.
+We use the video clip collected from [OXFORD TOWN CENTRE](https://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html) dataset and made the above demo video. 
+
+We trained our detectors using data from [Caltech](http://www.vision.caltech.edu/Image_Datasets/CaltechPedestrians/). Moreover, we tested our model on [OXFORD TOWN CENTRE](https://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html), [CUHK Square](https://www.ee.cuhk.edu.hk/~xgwang/CUHK_square.html) and [Mall](http://personal.ie.cuhk.edu.hk/~ccloy/downloads_mall_dataset.html)
 
 # Supported Models
 We have tested our model using Faster-RCNN, CenterNet, YOLO-v3 and SSD. Based on the performance of each model, we have chosen YOLO-v3 as our default model
@@ -34,7 +36,8 @@ detect = Detect(pretrained_models = 'yolo_v3')
 detector = detect(save_path = output_path_video, video = False, need_view_tranformer = False, device = mx.cpu())
 out, TP, FP, TN, FN, extra = detector(img_path, image_groundTruth)
 ```
-Running the above code will generate a labelled video. Moreover, `image_groundTruth` is a file that contains the labels of social distance. We have manually labelled all three datasets. The sampled video frames and `image_groundTruth` of all three datasets will be available upon request.
+Running the above code will generate a labelled video. 
+`image_groundTruth` is a `.top` file that contains the labels of social distance. We have manually labeled all three datasets and in each row of the file, the second element indicates the frame number, the third element shows the labels of social distance (0 = unsafe and 1 = safe) and the last four elements are the bounding box coordinates. The `.top` file of Oxford TownCenter, CUHK and Mall dataset are available under the data folder.
 
 # Support
 For any issue, please contact us at:  
