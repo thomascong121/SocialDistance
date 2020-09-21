@@ -1,5 +1,5 @@
 # SocialDistance
-Keeping safe social distance is considered as an effective way of avoiding spreading of coronavirus. Our SocialDistance module is a lightweight package, which provides a deep learning method for monitoring safe social distance.
+Keeping safe social distance is considered an effective way to avoid the spreading of coronavirus. Our SocialDistance module is a lightweight package, which provides a deep learning method for monitoring safe social distance.
 
 # Demo
 [Watch the demo video](https://www.youtube.com/watch?v=1s46BJJj6rw&t=5s)
